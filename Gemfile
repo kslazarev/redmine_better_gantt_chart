@@ -5,9 +5,9 @@ source 'http://gems.github.com'
 group :test do
   gem 'rake'
   gem 'rack', '1.1.0'
-  gem 'rails', '2.3.5'
-  gem 'activesupport', '2.3.5'
-  gem 'activerecord', '2.3.5'
+  gem 'rails', '2.3.11'
+  gem 'activesupport', '2.3.11'
+  gem 'activerecord', '2.3.11'
   gem 'sqlite3'
   gem 'mysql'
   gem 'rspec', "~>1.3"
