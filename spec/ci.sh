@@ -9,3 +9,4 @@ RAILS_ENV=test bundle exec rake db:create db:migrate
 cd ../..
 echo "Cloning the plugin to dummy Redmine plugins folder"
 git clone . spec/dummy_redmine/vendor/plugins/redmine_better_gantt_chart
+cd spec/dummy_redmine/vendor/plugins/redmine_better_gantt_chart && bundle install
