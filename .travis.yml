@@ -4,4 +4,4 @@ rvm:
 env:
   - DB=sqlite
 before_script: "./spec/ci.sh"
-script: "bundle exec rake spec"
+script: "cd spec/dummy_redmine/vendor/plugins/redmine_better_gantt_chart && bundle exec rake spec"
