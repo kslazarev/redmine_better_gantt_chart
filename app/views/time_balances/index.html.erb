@@ -1,0 +1,43 @@
+<%= stylesheet_link_tag "custom_gantt.css", :plugin => "redmine_better_gantt_chart" %>
+<h3>
+  <%= l('statistics.show') %>
+</h3>
+<div>
+
+  <% form_tag(url_for(:action => :index)) do %>
+      &nbsp;
+      <%= label_tag :from, l('statistics.from') %>
+      <%= text_field_tag :from, @from %>
+      <%= calendar_for :from %>
+      &nbsp;
+      <%= label_tag :to, l('statistics.to') %>
+      <%= text_field_tag :to, @to %>
+      <%= calendar_for :to %>
+      <%= submit_tag l('statistics.filter')%>
+  <% end %>
+</div>
+<br/>
+<table id="time_balances">
+  <thead>
+  <tr>
+    <th class="username">
+      <%= l(:user) %>
+    </th>
+    <th>
+      <%= l('issue.count.general') %>
+    </th>
+    <th>
+      <%= l('issue.count.success') %>
+    </th>
+    <th>
+      <%= l('issue.count.failure') %>
+    </th>
+    <th>
+      <%= l('issue.time_diff') %>
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+  <%= render :partial => 'result', :collection => @results %>
+  </tbody>
+</table>
