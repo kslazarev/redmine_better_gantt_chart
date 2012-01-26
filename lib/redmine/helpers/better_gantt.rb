@@ -911,7 +911,6 @@ module Redmine
         end
       end
 
-
       def simple_issue_coordinates start_date, due_date, progress, issue
         coords = {}
         coords[:closed] = issue.closed?
@@ -965,7 +964,7 @@ module Redmine
           coords[:bar_arrow] = [coords[:bar_progress_end], coords[:bar_late_end]].max + 1
           coords[:bar_progress_end] += 1
           coords[:bar_late_end] += 1
-          coords[:end] +=1
+          coords[:end] += 1
           coords[:bar_end] += 1
         end
 

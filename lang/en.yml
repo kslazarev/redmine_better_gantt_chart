@@ -1,2 +1,12 @@
-# English strings go here
-my_label: "My label"
+en:
+  field_duration: "Duration"
+  work_on_weekends_label: "Work on weekends"
+  user: "User"
+  issues:
+    count:
+      general: "Number of tasks"
+      success: "Number of completed tasks"
+      failure: "The number of overdue tasks"
+    time_diff: "The total time delay, days"
+
+

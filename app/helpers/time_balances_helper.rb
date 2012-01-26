@@ -1,5 +1,5 @@
 module TimeBalancesHelper
   def change_color number
-    0 <= number ? 'green' : 'red'
+    0 == number ? 'green' : 'red'
   end
 end

@@ -24,7 +24,8 @@ module RedmineBetterGanttChart
       end
 
       def miss_time
-        due_date - complete_date.to_date
+        miss = complete_date.to_date - due_date
+        (0 < miss) ? miss : 0
       end
     end
   end
