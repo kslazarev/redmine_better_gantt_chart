@@ -12,6 +12,6 @@
       <%= result[:failure_issues_count] %>
     </td>
     <% content_tag(:td, :class => change_color(result[:sum_time_difference])) do %>
-        <%= pluralize result[:sum_time_difference], 'day' %>
+        <%= result[:sum_time_difference] %>
     <% end %>
 <% end %>
