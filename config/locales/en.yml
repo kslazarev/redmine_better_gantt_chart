@@ -1,4 +1,5 @@
 en:
+  time_balances: "Time balances"
   field_duration: "Duration"
   work_on_weekends_label: "Work on weekends"
   user: "User"
@@ -13,5 +14,3 @@ en:
     from: "from:"
     to: "to:"
     filter: "Find"
-
-

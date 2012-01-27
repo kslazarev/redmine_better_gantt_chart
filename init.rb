@@ -29,6 +29,10 @@ Dispatcher.to_prepare :redmine_issue_dependency do
   end
 end
 
+require 'redmine_better_gantt_chart/redmine_better_gantt_chart'
+require 'redmine_better_gantt_chart/calendar'
+require 'redmine_better_gantt_chart/hooks/view_issues_show_details_bottom_hook'
+
 Redmine::Plugin.register :redmine_better_gantt_chart do
   name 'Redmine Better Gantt Chart plugin'
   author 'Alexey Kuleshov'
@@ -47,9 +51,7 @@ Redmine::Plugin.register :redmine_better_gantt_chart do
   }, :partial => "settings/better_gantt_chart_settings")
 
   permission :time_balances, {:time_balances => [:index, :vote]}, :public => true
-  menu :project_menu, :time_balances, {:controller => 'time_balances', :action => 'index'}, :caption => 'Time balances', :after => :gantt, :param => :project_id
+  menu :project_menu, :time_balances, {:controller => 'time_balances', :action => 'index'}, :caption => :time_balances, :after => :gantt, :param => :project_id
 end
 
-require 'redmine_better_gantt_chart/redmine_better_gantt_chart'
-require 'redmine_better_gantt_chart/calendar'
-require 'redmine_better_gantt_chart/hooks/view_issues_show_details_bottom_hook'
+

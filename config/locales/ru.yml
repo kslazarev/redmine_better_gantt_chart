@@ -1,8 +1,9 @@
 ru:
+  time_balances: "Статистика по выполненным задачам"
   field_duration: "Продолжительность"
   work_on_weekends_label: "Работа на выходных"
   user: "Пользователь"
-  issues:
+  issue:
     count:
       general: "Количество поставленных задач"
       success: "Количество выполненных задач"

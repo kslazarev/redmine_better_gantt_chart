@@ -1,12 +1,16 @@
 en:
+  time_balances: "Time balances"
   field_duration: "Duration"
   work_on_weekends_label: "Work on weekends"
   user: "User"
-  issues:
+  issue:
     count:
       general: "Number of tasks"
       success: "Number of completed tasks"
       failure: "The number of overdue tasks"
     time_diff: "The total time delay, days"
-
-
+  statistics:
+    show: "Display statistics for the period"
+    from: "from:"
+    to: "to:"
+    filter: "Find"
