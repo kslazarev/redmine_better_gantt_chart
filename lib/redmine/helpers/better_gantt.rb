@@ -83,26 +83,26 @@ module Redmine
       end
 
       def common_params
-        { :controller => 'gantts', :action => 'show', :project_id => @project }
+        {:controller => 'gantts', :action => 'show', :project_id => @project}
       end
 
       def params
-        common_params.merge({  :zoom => zoom, :year => year_from, :month => month_from, :months => months })
+        common_params.merge({:zoom => zoom, :year => year_from, :month => month_from, :months => months})
       end
 
       def params_previous
-        common_params.merge({:year => (date_from << months).year, :month => (date_from << months).month, :zoom => zoom, :months => months })
+        common_params.merge({:year => (date_from << months).year, :month => (date_from << months).month, :zoom => zoom, :months => months})
       end
 
       def params_next
-        common_params.merge({:year => (date_from >> months).year, :month => (date_from >> months).month, :zoom => zoom, :months => months })
+        common_params.merge({:year => (date_from >> months).year, :month => (date_from >> months).month, :zoom => zoom, :months => months})
       end
 
       # Returns the number of rows that will be rendered on the Gantt chart
       def number_of_rows
         return @number_of_rows if @number_of_rows
 
-        rows = projects.inject(0) {|total, p| total += number_of_rows_on_project(p)}
+        rows = projects.inject(0) { |total, p| total += number_of_rows_on_project(p) }
         rows > @max_rows ? @max_rows : rows
       end
 
@@ -169,7 +169,7 @@ module Redmine
 
       # Returns the issues that belong to +project+ and are assigned to +version+
       def version_issues(project, version)
-        project_issues(project).select {|issue| issue.fixed_version == version}
+        project_issues(project).select { |issue| issue.fixed_version == version }
       end
 
       def render(options={})
@@ -201,7 +201,7 @@ module Redmine
         @number_of_rows += 1
         return if abort?
 
-        issues = project_issues(project).select {|i| i.fixed_version.nil?}
+        issues = project_issues(project).select { |i| i.fixed_version.nil? }
         sort_issues!(issues)
         if issues
           render_issues(issues, options)
@@ -253,23 +253,23 @@ module Redmine
 
       def render_end(options={})
         case options[:format]
-        when :pdf
-          options[:pdf].Line(15, options[:top], PDF::TotalWidth, options[:top])
+          when :pdf
+            options[:pdf].Line(15, options[:top], PDF::TotalWidth, options[:top])
         end
       end
 
       def subject_for_project(project, options)
         case options[:format]
-        when :html
-          subject = "<span class='icon icon-projects #{project.overdue? ? 'project-overdue' : ''}'>"
-          subject << view.link_to_project(project)
-          subject << '</span>'
-          html_subject(options, subject, :css => "project-name")
-        when :image
-          image_subject(options, project.name)
-        when :pdf
-          pdf_new_page?(options)
-          pdf_subject(options, project.name)
+          when :html
+            subject = "<span class='icon icon-projects #{project.overdue? ? 'project-overdue' : ''}'>"
+            subject << view.link_to_project(project)
+            subject << '</span>'
+            html_subject(options, subject, :css => "project-name")
+          when :image
+            image_subject(options, project.name)
+          when :pdf
+            pdf_new_page?(options)
+            pdf_subject(options, project.name)
         end
       end
 
@@ -283,12 +283,12 @@ module Redmine
           label = h(project)
 
           case options[:format]
-          when :html
-            html_task(options, coords, :css => "project task", :label => label, :markers => true)
-          when :image
-            image_task(options, coords, :label => label, :markers => true, :height => 3)
-          when :pdf
-            pdf_task(options, coords, :label => label, :markers => true, :height => 0.8)
+            when :html
+              html_task(options, coords, :css => "project task", :label => label, :markers => true)
+            when :image
+              image_task(options, coords, :label => label, :markers => true, :height => 3)
+            when :pdf
+              pdf_task(options, coords, :label => label, :markers => true, :height => 0.8)
           end
         else
           ActiveRecord::Base.logger.debug "Gantt#line_for_project was not given a project with a start_date"
@@ -298,16 +298,16 @@ module Redmine
 
       def subject_for_version(version, options)
         case options[:format]
-        when :html
-          subject = "<span class='icon icon-package #{version.behind_schedule? ? 'version-behind-schedule' : ''} #{version.overdue? ? 'version-overdue' : ''}'>"
-          subject << view.link_to_version(version)
-          subject << '</span>'
-          html_subject(options, subject, :css => "version-name")
-        when :image
-          image_subject(options, version.to_s_with_project)
-        when :pdf
-          pdf_new_page?(options)
-          pdf_subject(options, version.to_s_with_project)
+          when :html
+            subject = "<span class='icon icon-package #{version.behind_schedule? ? 'version-behind-schedule' : ''} #{version.overdue? ? 'version-overdue' : ''}'>"
+            subject << view.link_to_version(version)
+            subject << '</span>'
+            html_subject(options, subject, :css => "version-name")
+          when :image
+            image_subject(options, version.to_s_with_project)
+          when :pdf
+            pdf_new_page?(options)
+            pdf_subject(options, version.to_s_with_project)
         end
       end
 
@@ -322,12 +322,12 @@ module Redmine
           label = h("#{version.project} -") + label unless @project && @project == version.project
 
           case options[:format]
-          when :html
-            html_task(options, coords, :css => "version task", :label => label, :markers => true)
-          when :image
-            image_task(options, coords, :label => label, :markers => true, :height => 3)
-          when :pdf
-            pdf_task(options, coords, :label => label, :markers => true, :height => 0.8)
+            when :html
+              html_task(options, coords, :css => "version task", :label => label, :markers => true)
+            when :image
+              image_task(options, coords, :label => label, :markers => true, :height => 3)
+            when :pdf
+              pdf_task(options, coords, :label => label, :markers => true, :height => 0.8)
           end
         else
           ActiveRecord::Base.logger.debug "Gantt#line_for_version was not given a version with a start_date"
@@ -343,27 +343,27 @@ module Redmine
         end
 
         output = case options[:format]
-        when :html
-          css_classes = ''
-          css_classes << ' issue-overdue' if issue.overdue?
-          css_classes << ' issue-behind-schedule' if issue.behind_schedule?
-          css_classes << ' icon icon-issue' unless Setting.gravatar_enabled? && issue.assigned_to
+                   when :html
+                     css_classes = ''
+                     css_classes << ' issue-overdue' if issue.overdue?
+                     css_classes << ' issue-behind-schedule' if issue.behind_schedule?
+                     css_classes << ' icon icon-issue' unless Setting.gravatar_enabled? && issue.assigned_to
 
-          subject = "<span class='#{css_classes}'>"
-          if issue.assigned_to.present?
-            assigned_string = l(:field_assigned_to) + ": " + issue.assigned_to.name
-            subject << view.avatar(issue.assigned_to, :class => 'gravatar icon-gravatar', :size => 10, :title => assigned_string).to_s
-          end
-          subject << "(" + view.link_to_project(issue.project) + ") " if issue.external?
-          subject << view.link_to_issue(issue)
-          subject << '</span>'
-          html_subject(options, subject, :css => "issue-subject", :title => issue.subject, :external => issue.external?) + "\n"
-        when :image
-          image_subject(options, issue.subject)
-        when :pdf
-          pdf_new_page?(options)
-          pdf_subject(options, issue.subject)
-        end
+                     subject = "<span class='#{css_classes}'>"
+                     if issue.assigned_to.present?
+                       assigned_string = l(:field_assigned_to) + ": " + issue.assigned_to.name
+                       subject << view.avatar(issue.assigned_to, :class => 'gravatar icon-gravatar', :size => 10, :title => assigned_string).to_s
+                     end
+                     subject << "(" + view.link_to_project(issue.project) + ") " if issue.external?
+                     subject << view.link_to_issue(issue)
+                     subject << '</span>'
+                     html_subject(options, subject, :css => "issue-subject", :title => issue.subject, :external => issue.external?) + "\n"
+                   when :image
+                     image_subject(options, issue.subject)
+                   when :pdf
+                     pdf_new_page?(options)
+                     pdf_subject(options, issue.subject)
+                 end
 
         unless issue.leaf?
           @issue_ancestors << issue
@@ -376,17 +376,17 @@ module Redmine
       def line_for_issue(issue, options)
         # Skip issues that don't have a due_before (due_date or version's due_date)
         if issue.is_a?(Issue) && issue.due_before
-          coords = coordinates(issue.start_date, issue.due_before, issue.done_ratio, options[:zoom])
+          coords = coordinates(issue.start_date, issue.due_before, issue.done_ratio, options[:zoom], issue)
           label = "#{ issue.status.name } #{ issue.done_ratio }%"
 
           case options[:format]
-          when :html
-            html_task(options, coords, :css => "task " + (issue.leaf? ? 'leaf' : 'parent'), :label => label, :issue => issue, :markers => !issue.leaf?)
-          when :image
-            image_task(options, coords, :label => label)
-          when :pdf
-            pdf_task(options, coords, :label => label)
-        end
+            when :html
+              html_task(options, coords, :css => "task " + (issue.leaf? ? 'leaf' : 'parent'), :label => label, :issue => issue, :markers => !issue.leaf?)
+            when :image
+              image_task(options, coords, :label => label)
+            when :pdf
+              pdf_task(options, coords, :label => label)
+          end
         else
           ActiveRecord::Base.logger.debug "GanttHelper#line_for_issue was not given an issue with a due_before"
           ''
@@ -436,51 +436,51 @@ module Redmine
 
         # Weeks headers
         if show_weeks
-        	left = subject_width
-        	height = header_height
-        	if @date_from.cwday == 1
-        	    # date_from is monday
-                week_f = date_from
-        	else
-        	    # find next monday after date_from
-        		week_f = @date_from + (7 - @date_from.cwday + 1)
-        		width = (7 - @date_from.cwday + 1) * zoom
-                gc.fill('white')
-                gc.stroke('grey')
-                gc.stroke_width(1)
-                gc.rectangle(left, header_height, left + width, 2*header_height + g_height-1)
-        		left = left + width
-        	end
-        	while week_f <= date_to
-        		width = (week_f + 6 <= date_to) ? 7 * zoom : (date_to - week_f + 1) * zoom
-                gc.fill('white')
-                gc.stroke('grey')
-                gc.stroke_width(1)
-                gc.rectangle(left.round, header_height, left.round + width, 2*header_height + g_height-1)
-                gc.fill('black')
-                gc.stroke('transparent')
-                gc.stroke_width(1)
-                gc.text(left.round + 2, header_height + 14, week_f.cweek.to_s)
-        		left = left + width
-        		week_f = week_f+7
-        	end
+          left = subject_width
+          height = header_height
+          if @date_from.cwday == 1
+            # date_from is monday
+            week_f = date_from
+          else
+            # find next monday after date_from
+            week_f = @date_from + (7 - @date_from.cwday + 1)
+            width = (7 - @date_from.cwday + 1) * zoom
+            gc.fill('white')
+            gc.stroke('grey')
+            gc.stroke_width(1)
+            gc.rectangle(left, header_height, left + width, 2*header_height + g_height-1)
+            left = left + width
+          end
+          while week_f <= date_to
+            width = (week_f + 6 <= date_to) ? 7 * zoom : (date_to - week_f + 1) * zoom
+            gc.fill('white')
+            gc.stroke('grey')
+            gc.stroke_width(1)
+            gc.rectangle(left.round, header_height, left.round + width, 2*header_height + g_height-1)
+            gc.fill('black')
+            gc.stroke('transparent')
+            gc.stroke_width(1)
+            gc.text(left.round + 2, header_height + 14, week_f.cweek.to_s)
+            left = left + width
+            week_f = week_f+7
+          end
         end
 
         # Days details (week-end in grey)
         if show_days
-        	left = subject_width
-        	height = g_height + header_height - 1
-        	wday = @date_from.cwday
-        	(date_to - @date_from + 1).to_i.times do
-              width =  zoom
-              gc.fill(wday == 6 || wday == 7 ? '#eee' : 'white')
-              gc.stroke('#ddd')
-              gc.stroke_width(1)
-              gc.rectangle(left, 2*header_height, left + width, 2*header_height + g_height-1)
-              left = left + width
-              wday = wday + 1
-              wday = 1 if wday > 7
-        	end
+          left = subject_width
+          height = g_height + header_height - 1
+          wday = @date_from.cwday
+          (date_to - @date_from + 1).to_i.times do
+            width = zoom
+            gc.fill(wday == 6 || wday == 7 ? '#eee' : 'white')
+            gc.stroke('#ddd')
+            gc.stroke_width(1)
+            gc.rectangle(left, 2*header_height, left + width, 2*header_height + g_height-1)
+            left = left + width
+            wday = wday + 1
+            wday = 1 if wday > 7
+          end
         end
 
         # border
@@ -510,29 +510,29 @@ module Redmine
       end if Object.const_defined?(:Magick)
 
       def to_pdf
-        
+
         begin
-            pdf = ::Redmine::Export::PDF::ITCPDF.new(current_language)
+          pdf = ::Redmine::Export::PDF::ITCPDF.new(current_language)
         rescue NameError
-            # Compatibility with 1.1.3
-            unless ::Redmine::Export::PDF::IFPDF.respond_to?(:alias_nb_pages)
-              # Compatibility with 1.1.2
-              # TODO: get rid of this dirty hack
-              ::Redmine::Export::PDF::IFPDF.class_eval "alias :alias_nb_pages :AliasNbPages; alias :RDMCell :Cell"
-            end
-            
-            pdf = ::Redmine::Export::PDF::IFPDF.new(current_language)
+          # Compatibility with 1.1.3
+          unless ::Redmine::Export::PDF::IFPDF.respond_to?(:alias_nb_pages)
+            # Compatibility with 1.1.2
+            # TODO: get rid of this dirty hack
+            ::Redmine::Export::PDF::IFPDF.class_eval "alias :alias_nb_pages :AliasNbPages; alias :RDMCell :Cell"
+          end
+
+          pdf = ::Redmine::Export::PDF::IFPDF.new(current_language)
         end
 
         pdf.SetTitle("#{l(:label_gantt)} #{project}")
         pdf.alias_nb_pages
         pdf.footer_date = format_date(Date.today)
         pdf.AddPage("L")
-        pdf.SetFontStyle('B',12)
+        pdf.SetFontStyle('B', 12)
         pdf.SetX(15)
         pdf.RDMCell(PDF::LeftPaneWidth, 20, project.to_s)
         pdf.Ln
-        pdf.SetFontStyle('B',9)
+        pdf.SetFontStyle('B', 9)
 
         subject_width = PDF::LeftPaneWidth
         header_height = 5
@@ -601,7 +601,7 @@ module Redmine
           left = subject_width
           height = header_height
           wday = self.date_from.cwday
-          pdf.SetFontStyle('B',7)
+          pdf.SetFontStyle('B', 7)
           (self.date_to - self.date_from + 1).to_i.times do
             width = zoom
             pdf.SetY(y_start + 2 * header_height)
@@ -636,41 +636,45 @@ module Redmine
 
       private
 
-      def coordinates(start_date, end_date, progress, zoom=nil)
+      def coordinates(start_date, end_date, progress, zoom = nil, issue = nil)
         zoom ||= @zoom
 
         coords = {}
-        if start_date && end_date && start_date < self.date_to && end_date > self.date_from
-          if start_date > self.date_from
-            coords[:start] = start_date - self.date_from
-            coords[:bar_start] = start_date - self.date_from
-          else
-            coords[:bar_start] = 0
-          end
-          if end_date < self.date_to
-            coords[:end] = end_date - self.date_from
-            coords[:bar_end] = end_date - self.date_from + 1
-          else
-            coords[:bar_end] = self.date_to - self.date_from + 1
-          end
-
-          if progress
-            progress_date = start_date + (end_date - start_date + 1) * (progress / 100.0)
-            if progress_date > self.date_from && progress_date > start_date
-              if progress_date < self.date_to
-                coords[:bar_progress_end] = progress_date - self.date_from
-              else
-                coords[:bar_progress_end] = self.date_to - self.date_from + 1
-              end
+        if issue and issue.simple?
+          coords = simple_issue_coordinates(start_date, end_date, progress, issue)
+        else
+          if start_date && end_date && start_date < self.date_to && end_date > self.date_from
+            if start_date > self.date_from
+              coords[:start] = start_date - self.date_from
+              coords[:bar_start] = start_date - self.date_from
+            else
+              coords[:bar_start] = 0
+            end
+            if end_date < self.date_to
+              coords[:end] = end_date - self.date_from
+              coords[:bar_end] = end_date - self.date_from + 1
+            else
+              coords[:bar_end] = self.date_to - self.date_from + 1
             end
 
-            if progress_date < Date.today
-              late_date = [Date.today, end_date].min
-              if late_date > self.date_from && late_date > start_date
-                if late_date < self.date_to
-                  coords[:bar_late_end] = late_date - self.date_from + 1
+            if progress
+              progress_date = start_date + (end_date - start_date + 1) * (progress / 100.0)
+              if progress_date > self.date_from && progress_date > start_date
+                if progress_date < self.date_to
+                  coords[:bar_progress_end] = progress_date - self.date_from
                 else
-                  coords[:bar_late_end] = self.date_to - self.date_from + 1
+                  coords[:bar_progress_end] = self.date_to - self.date_from + 1
+                end
+              end
+
+              if progress_date < Date.today
+                late_date = [Date.today, end_date].min
+                if late_date > self.date_from && late_date > start_date
+                  if late_date < self.date_to
+                    coords[:bar_late_end] = late_date - self.date_from + 1
+                  else
+                    coords[:bar_late_end] = self.date_to - self.date_from + 1
+                  end
                 end
               end
             end
@@ -678,9 +682,9 @@ module Redmine
         end
 
         # Transforms dates into pixels witdh
-        coords.keys.each do |key|
-          coords[key] = (coords[key] * zoom).floor
-        end
+        coords.keys.select { |key| ![:closed].include?(key) }.each { |key|
+          coords[key] = (coords[key] * zoom).floor unless nil == coords[key]
+        }
         coords
       end
 
@@ -737,7 +741,7 @@ module Redmine
         params[:pdf].SetX(15)
 
         char_limit = PDF::MaxCharactorsForSubject - params[:indent]
-        params[:pdf].RDMCell(params[:subject_width]-15, 5, (" " * params[:indent]) +  subject.to_s.sub(/^(.{#{char_limit}}[^\s]*\s).*$/, '\1 (...)'), "LR")
+        params[:pdf].RDMCell(params[:subject_width]-15, 5, (" " * params[:indent]) + subject.to_s.sub(/^(.{#{char_limit}}[^\s]*\s).*$/, '\1 (...)'), "LR")
 
         params[:pdf].SetY(params[:top])
         params[:pdf].SetX(params[:subject_width])
@@ -753,31 +757,37 @@ module Redmine
 
       def html_task(params, coords, options={})
         output = ''
+        simple_issue = options[:issue] ? options[:issue].simple? : nil
         # Renders the task bar, with progress and late
-        
+
         if options[:issue]
-          issue = options[:issue]          
-          issue_id = "#{issue.id}"          
+          issue = options[:issue]
+          issue_id = "#{issue.id}"
           relations = {}
           issue.relations_to.each do |relation|
-            relation_type = relation.relation_type_for(relation.issue_to) 
+            relation_type = relation.relation_type_for(relation.issue_to)
             (relations[relation_type] ||= []) << relation.issue_from_id
           end
-          issue_relations = relations.inject("") {|str,rel| str << " #{rel[0]}='#{rel[1].join(',')}'" }
+          issue_relations = relations.inject("") { |str, rel| str << " #{rel[0]}='#{rel[1].join(',')}'" }
         end
-        
+
         if coords[:bar_start] && coords[:bar_end]
-          if options[:issue]
-            output << "<div id='#{issue_id}'#{issue_relations}style='top:#{ params[:top] }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_end] - coords[:bar_start] - 2}px;' class='#{options[:css]} task_todo'>&nbsp;</div>"
+          if simple_issue
+            output << simple_issue_html_task(coords, params, issue_id, issue_relations, options)
           else
-            output << "<div style='top:#{ params[:top] }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_end] - coords[:bar_start] - 2}px;' class='#{options[:css]} task_todo'>&nbsp;</div>"            
-          end
-          
-          if coords[:bar_late_end]
-            output << "<div style='top:#{ params[:top] }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_late_end] - coords[:bar_start] - 2}px;' class='#{options[:css]} task_late'>&nbsp;</div>"
-          end
-          if coords[:bar_progress_end]
-            output << "<div style='top:#{ params[:top] }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_progress_end] - coords[:bar_start] - 2}px;' class='#{options[:css]} task_done'>&nbsp;</div>"
+            if options[:issue]
+              output << "<div id='#{issue_id}'#{issue_relations}style='top:#{ params[:top] }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_end] - coords[:bar_start] - 2}px;' class='#{options[:css]} task_todo'>&nbsp;</div>"
+            else
+              output << "<div style='top:#{ params[:top] }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_end] - coords[:bar_start] - 2}px;' class='#{options[:css]} task_todo'>&nbsp;</div>"
+            end
+
+            if coords[:bar_late_end]
+              output << "<div style='top:#{ params[:top] }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_late_end] - coords[:bar_start] - 2}px;' class='#{options[:css]} task_late'>&nbsp;</div>"
+            end
+            if coords[:bar_progress_end]
+              output << "<div style='top:#{ params[:top] }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_progress_end] - coords[:bar_start] - 2}px;' class='#{options[:css]} task_done'>&nbsp;</div>"
+            end
+
           end
         end
         # Renders the markers
@@ -791,7 +801,18 @@ module Redmine
         end
         # Renders the label on the right
         if options[:label]
-          output << "<div style='top:#{ params[:top] }px;left:#{ (coords[:bar_end] || 0) + 8 }px;' class='#{options[:css]} label'>"
+          if simple_issue
+            if options[:issue].closed?
+              output << "<div style='top:#{ params[:top] }px;left:#{ [coords[:bar_progress_end].to_i, coords[:bar_late_end].to_i].max + 8 }px;' class='#{options[:css]} label'>"
+              #output << "A #{coords[:bar_progress_end].to_i}  #{coords[:bar_late_end].to_i}"
+            else
+              output << "<div style='top:#{ params[:top] }px;left:#{ [coords[:bar_end].to_i, coords[:bar_late_end].to_i].max + 8 }px;' class='#{options[:css]} label'>"
+              #output << "B #{coords[:bar_end].to_i}  #{coords[:bar_late_end].to_i}"
+            end
+          else
+            output << "<div style='top:#{ params[:top] }px;left:#{ (coords[:bar_end] || 0) + 8 }px;' class='#{options[:css]} label'>"
+
+          end
           output << options[:label]
           output << "</div>"
         end
@@ -813,19 +834,19 @@ module Redmine
         if coords[:bar_start] && coords[:bar_end]
           params[:pdf].SetY(params[:top]+1.5)
           params[:pdf].SetX(params[:subject_width] + coords[:bar_start])
-          params[:pdf].SetFillColor(200,200,200)
+          params[:pdf].SetFillColor(200, 200, 200)
           params[:pdf].RDMCell(coords[:bar_end] - coords[:bar_start], height, "", 0, 0, "", 1)
 
           if coords[:bar_late_end]
             params[:pdf].SetY(params[:top]+1.5)
             params[:pdf].SetX(params[:subject_width] + coords[:bar_start])
-            params[:pdf].SetFillColor(255,100,100)
+            params[:pdf].SetFillColor(255, 100, 100)
             params[:pdf].RDMCell(coords[:bar_late_end] - coords[:bar_start], height, "", 0, 0, "", 1)
           end
           if coords[:bar_progress_end]
             params[:pdf].SetY(params[:top]+1.5)
             params[:pdf].SetX(params[:subject_width] + coords[:bar_start])
-            params[:pdf].SetFillColor(90,200,90)
+            params[:pdf].SetFillColor(90, 200, 90)
             params[:pdf].RDMCell(coords[:bar_progress_end] - coords[:bar_start], height, "", 0, 0, "", 1)
           end
         end
@@ -834,13 +855,13 @@ module Redmine
           if coords[:start]
             params[:pdf].SetY(params[:top] + 1)
             params[:pdf].SetX(params[:subject_width] + coords[:start] - 1)
-            params[:pdf].SetFillColor(50,50,200)
+            params[:pdf].SetFillColor(50, 50, 200)
             params[:pdf].RDMCell(2, 2, "", 0, 0, "", 1)
           end
           if coords[:end]
             params[:pdf].SetY(params[:top] + 1)
             params[:pdf].SetX(params[:subject_width] + coords[:end] - 1)
-            params[:pdf].SetFillColor(50,50,200)
+            params[:pdf].SetFillColor(50, 50, 200)
             params[:pdf].RDMCell(2, 2, "", 0, 0, "", 1)
           end
         end
@@ -886,8 +907,121 @@ module Redmine
         # Renders the label on the right
         if options[:label]
           params[:image].fill('black')
-          params[:image].text(params[:subject_width] + (coords[:bar_end] || 0) + 5,params[:top] + 1, options[:label])
+          params[:image].text(params[:subject_width] + (coords[:bar_end] || 0) + 5, params[:top] + 1, options[:label])
         end
+      end
+
+
+      def simple_issue_coordinates start_date, due_date, progress, issue
+        coords = {}
+        coords[:closed] = issue.closed?
+        complete_date = issue.complete_date.to_date if issue.complete_date
+
+        if progress
+          if 100 == progress
+            if complete_date < due_date
+              progress_date = complete_date
+              late_date = start_date
+            else
+              progress_date = due_date
+              late_date = complete_date
+            end
+          else
+            progress_date = Date.today
+            progress_date = start_date if progress_date < start_date
+            if progress_date < due_date
+              late_date = start_date
+            else
+              late_date = progress_date
+              progress_date = due_date
+            end
+          end
+
+          if progress_date and self.date_from < progress_date and progress_date < self.date_to
+            coords[:bar_progress_end] = progress_date - self.date_from
+          else
+            coords[:bar_progress_end] = self.date_to - self.date_from + 1
+          end
+          coords[:bar_progress_end] = -1 if progress_date < self.date_from
+          coords[:bar_progress_end] = self.date_to - self.date_from if self.date_to < progress_date
+
+
+          if late_date and self.date_from < late_date and late_date < self.date_to
+            coords[:bar_late_end] = late_date - self.date_from
+          else
+            coords[:bar_late_end] = self.date_to - self.date_from + 1
+          end
+          coords[:bar_late_end] = -1 if late_date < self.date_from
+          coords[:bar_late_end] = self.date_to - self.date_from if self.date_to < late_date
+
+          end_date = [due_date, progress_date, late_date].max
+          if end_date < self.date_to
+            coords[:end] = end_date - self.date_from
+            coords[:bar_end] = end_date - self.date_from
+          else
+            coords[:bar_end] = self.date_to - self.date_from + 1
+          end
+
+          coords[:bar_arrow] = [coords[:bar_progress_end], coords[:bar_late_end]].max + 1
+          coords[:bar_progress_end] += 1
+          coords[:bar_late_end] += 1
+          coords[:end] +=1
+          coords[:bar_end] += 1
+        end
+
+        if start_date and due_date and self.date_from < end_date and start_date < self.date_to
+          if self.date_from < start_date
+            coords[:start] = start_date - self.date_from
+            coords[:bar_start] = start_date - self.date_from
+          else
+            coords[:bar_start] = 0
+          end
+
+          if complete_date
+            if complete_date < self.date_to
+              coords[:complete] = complete_date - self.date_from
+              coords[:bar_complete] = complete_date - self.date_from + 1
+            else
+              coords[:bar_complete] = self.date_to - self.date_from + 1
+            end
+          end
+        end
+
+        coords
+      end
+
+      def simple_issue_html_task coords, params, issue_id, issue_relations, options
+        output = ''
+
+        unless coords[:closed]
+          if coords[:bar_complete]
+            output << "<div id='#{issue_id}'#{issue_relations}style='top:#{ params[:top] }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_end] - coords[:bar_start] - 2}px;' class='#{options[:css]} task_todo'></div>"
+            output << "<div style='top:#{ params[:top] }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_late_end] - coords[:bar_start] - 2}px;' class='#{options[:css]} task_late'>&nbsp;</div>" if coords[:bar_late_end]
+
+            if coords[:bar_progress_end]
+              output << "<div style='top:#{ params[:top] }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_progress_end] - coords[:bar_start] - 2}px;' class='#{options[:css]} task_done'>&nbsp;</div>"
+            end
+          else
+            output << "<div id='#{issue_id}'#{issue_relations}style='top:#{ params[:top] }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_end] - coords[:bar_start] - 2}px;' class='#{options[:css]} task_todo'></div>"
+
+            if coords[:bar_progress_end] < coords[:bar_late_end]
+              #coords[:bar_arrow] = coords[:bar_late_end]
+              arrow_color = '#f66'
+            else
+              #coords[:bar_arrow] = coords[:bar_progress_end]
+              arrow_color = '#00c600'
+            end
+            output << "<div style='top:#{ params[:top] }px;left:#{ coords[:bar_arrow] - 3}px;height:5px;background:#{arrow_color};border-right: 1px solid #{arrow_color};border-bottom: 1px solid #{arrow_color};' class='#{options[:css]} arrow-left'>&nbsp;</div>"
+            output << "<div style='top:#{ params[:top] }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_late_end] - coords[:bar_start] - 2}px;' class='#{options[:css]} task_late'>&nbsp;</div>" if coords[:bar_late_end]
+            output << "<div style='top:#{ params[:top] }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_progress_end] - coords[:bar_start] - 2}px;border-left:0' class='#{options[:css]} task_done'>&nbsp;</div>" if 0 < coords[:bar_progress_end] - coords[:bar_start]
+          end
+        else
+          unless coords[:bar_complete] - coords[:bar_start] <= 0
+            output << "<div id='#{issue_id}'#{issue_relations}style='top:#{ params[:top] }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_complete] - coords[:bar_start] - 2}px;' class='#{options[:css]} task_closed'>&nbsp;</div>"
+          end
+        end
+
+        output
       end
     end
   end
