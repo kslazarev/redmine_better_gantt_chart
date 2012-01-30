@@ -5,6 +5,7 @@ require 'dispatcher'
 Dispatcher.to_prepare :redmine_issue_dependency do
   require_dependency 'issue'
   require_dependency 'project'
+  require_dependency
   # Guards against including the module multiple time (like in tests)
   # and registering multiple callbacks
   unless ActiveRecord::Base.included_modules.include? RedmineBetterGanttChart::ActiveRecord::CallbackExtensions
@@ -37,6 +38,9 @@ Redmine::Plugin.register :redmine_better_gantt_chart do
   author_url 'http://github.com/kulesa'
   
   requires_redmine :version_or_higher => '1.1.0'
+
+  #git@github.com:kslazarev/redmine_closed_issue.git
+  requires_redmine_plugin :redmine_closed_issue => '0.0.2'
 
   settings(:default => {
     'work_on_weekends' => true
