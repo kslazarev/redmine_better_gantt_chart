@@ -5,7 +5,7 @@ require 'dispatcher'
 Dispatcher.to_prepare :redmine_issue_dependency do
   require_dependency 'issue'
   require_dependency 'project'
-  require_dependency
+
   # Guards against including the module multiple time (like in tests)
   # and registering multiple callbacks
   unless ActiveRecord::Base.included_modules.include? RedmineBetterGanttChart::ActiveRecord::CallbackExtensions
@@ -19,7 +19,7 @@ Dispatcher.to_prepare :redmine_issue_dependency do
   unless Issue.included_modules.include? RedmineBetterGanttChart::IssuePatch
     Issue.send(:include, RedmineBetterGanttChart::IssuePatch)
   end
-  
+
   unless Project.included_modules.include? RedmineBetterGanttChart::ProjectPatch
     Project.send(:include, RedmineBetterGanttChart::ProjectPatch)
   end
@@ -40,11 +40,14 @@ Redmine::Plugin.register :redmine_better_gantt_chart do
   requires_redmine :version_or_higher => '1.1.0'
 
   #git@github.com:kslazarev/redmine_closed_issue.git
-  requires_redmine_plugin :redmine_closed_issue => '0.0.2'
+  #requires_redmine_plugin :redmine_closed_issue, '0.0.2'
 
   settings(:default => {
     'work_on_weekends' => true
   }, :partial => "settings/better_gantt_chart_settings")
+
+  permission :time_balances, {:time_balances => [:index, :vote]}, :public => true
+  menu :project_menu, :time_balances, {:controller => 'time_balances', :action => 'index'}, :caption => 'Time balances', :after => :gantt, :param => :project_id
 end
 
 require 'redmine_better_gantt_chart/redmine_better_gantt_chart'

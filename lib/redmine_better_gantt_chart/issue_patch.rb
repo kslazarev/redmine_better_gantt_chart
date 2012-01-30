@@ -14,6 +14,18 @@ module RedmineBetterGanttChart
       def external?
         !!@external
       end
+
+      def simple?
+        !Issue.find(:first, :conditions => ["parent_id = ?", id])
+      end
+
+      def complete_in_time?
+        complete_date <= due_date
+      end
+
+      def miss_time
+        due_date - complete_date.to_date
+      end
     end
   end
 end
