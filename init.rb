@@ -23,7 +23,7 @@ Dispatcher.to_prepare :redmine_issue_dependency do
   unless Project.included_modules.include? RedmineBetterGanttChart::ProjectPatch
     Project.send(:include, RedmineBetterGanttChart::ProjectPatch)
   end
-  
+
   unless GanttsController.included_modules.include? RedmineBetterGanttChart::GanttsControllerPatch
     GanttsController.send(:include, RedmineBetterGanttChart::GanttsControllerPatch)
   end
@@ -40,7 +40,7 @@ Redmine::Plugin.register :redmine_better_gantt_chart do
   version '0.6.2'
   url 'https://github.com/kulesa/redmine_better_gantt_chart'
   author_url 'http://github.com/kulesa'
-  
+
   requires_redmine :version_or_higher => '1.1.0'
 
   #git@github.com:kslazarev/redmine_closed_issue.git

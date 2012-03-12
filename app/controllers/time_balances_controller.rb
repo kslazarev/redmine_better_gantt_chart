@@ -35,7 +35,6 @@ class TimeBalancesController < ApplicationController
           :sum_time_difference => sum_time_difference || 0
         }
       end
-
     end
   end
 

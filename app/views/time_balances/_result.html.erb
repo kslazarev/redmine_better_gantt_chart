@@ -1,0 +1,17 @@
+<% content_tag(:tr, :class => (result[:num] % 2 == 0) ? 'odd' : '') do %>
+    <td>
+      <%= result[:user_name] %>
+    </td>
+    <td>
+      <%= result[:general_issues_count] %>
+    </td>
+    <td class="green">
+      <%= result[:success_issues_count] %>
+    </td>
+    <td class="red">
+      <%= result[:failure_issues_count] %>
+    </td>
+    <% content_tag(:td, :class => change_color(result[:sum_time_difference])) do %>
+        <%= result[:sum_time_difference] %>
+    <% end %>
+<% end %>

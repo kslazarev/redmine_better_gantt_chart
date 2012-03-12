@@ -134,8 +134,8 @@ module Redmine
       def issues
         @issues ||= @query.issues(
           :include => [:assigned_to, :tracker, :priority, :category, :fixed_version],
-          :order => "#{Project.table_name}.lft ASC, #{Issue.table_name}.id ASC",
-          :limit => @max_rows
+            :order => "#{Project.table_name}.lft ASC, #{Issue.table_name}.id ASC",
+            :limit => @max_rows
         )
       end
 
@@ -148,8 +148,8 @@ module Redmine
           # All issues projects and their visible ancestors
           @projects = Project.visible.all(
             :joins => "LEFT JOIN #{Project.table_name} child ON #{Project.table_name}.lft <= child.lft AND #{Project.table_name}.rgt >= child.rgt",
-            :conditions => ["child.id IN (?)", ids],
-            :order => "#{Project.table_name}.lft ASC"
+              :conditions => ["child.id IN (?)", ids],
+              :order => "#{Project.table_name}.lft ASC"
           ).uniq
         else
           @projects = []
@@ -802,13 +802,7 @@ module Redmine
         # Renders the label on the right
         if options[:label]
           if simple_issue
-            if options[:issue].closed?
-              output << "<div style='top:#{ params[:top] }px;left:#{ [coords[:bar_progress_end].to_i, coords[:bar_late_end].to_i].max + 8 }px;' class='#{options[:css]} label'>"
-              #output << "A #{coords[:bar_progress_end].to_i}  #{coords[:bar_late_end].to_i}"
-            else
-              output << "<div style='top:#{ params[:top] }px;left:#{ [coords[:bar_end].to_i, coords[:bar_late_end].to_i].max + 8 }px;' class='#{options[:css]} label'>"
-              #output << "B #{coords[:bar_end].to_i}  #{coords[:bar_late_end].to_i}"
-            end
+            output << "<div style='top:#{ params[:top] }px;left:#{ [coords[:bar_end].to_i, coords[:bar_late_end].to_i].max + 8 }px;' class='#{options[:css]} label'>"
           else
             output << "<div style='top:#{ params[:top] }px;left:#{ (coords[:bar_end] || 0) + 8 }px;' class='#{options[:css]} label'>"
 
@@ -911,7 +905,6 @@ module Redmine
         end
       end
 
-
       def simple_issue_coordinates start_date, due_date, progress, issue
         coords = {}
         coords[:closed] = issue.closed?
@@ -965,7 +958,7 @@ module Redmine
           coords[:bar_arrow] = [coords[:bar_progress_end], coords[:bar_late_end]].max + 1
           coords[:bar_progress_end] += 1
           coords[:bar_late_end] += 1
-          coords[:end] +=1
+          coords[:end] += 1
           coords[:bar_end] += 1
         end
 
@@ -993,32 +986,26 @@ module Redmine
       def simple_issue_html_task coords, params, issue_id, issue_relations, options
         output = ''
 
-        unless coords[:closed]
-          if coords[:bar_complete]
-            output << "<div id='#{issue_id}'#{issue_relations}style='top:#{ params[:top] }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_end] - coords[:bar_start] - 2}px;' class='#{options[:css]} task_todo'></div>"
-            output << "<div style='top:#{ params[:top] }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_late_end] - coords[:bar_start] - 2}px;' class='#{options[:css]} task_late'>&nbsp;</div>" if coords[:bar_late_end]
+        if coords[:bar_complete]
+          output << "<div id='#{issue_id}'#{issue_relations}style='top:#{ params[:top] }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_end] - coords[:bar_start] - 2}px;' class='#{options[:css]} task_todo'></div>"
+          output << "<div style='top:#{ params[:top] }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_late_end] - coords[:bar_start] - 2}px;' class='#{options[:css]} task_late'>&nbsp;</div>" if coords[:bar_late_end]
 
-            if coords[:bar_progress_end]
-              output << "<div style='top:#{ params[:top] }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_progress_end] - coords[:bar_start] - 2}px;' class='#{options[:css]} task_done'>&nbsp;</div>"
-            end
-          else
-            output << "<div id='#{issue_id}'#{issue_relations}style='top:#{ params[:top] }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_end] - coords[:bar_start] - 2}px;' class='#{options[:css]} task_todo'></div>"
-
-            if coords[:bar_progress_end] < coords[:bar_late_end]
-              #coords[:bar_arrow] = coords[:bar_late_end]
-              arrow_color = '#f66'
-            else
-              #coords[:bar_arrow] = coords[:bar_progress_end]
-              arrow_color = '#00c600'
-            end
-            output << "<div style='top:#{ params[:top] }px;left:#{ coords[:bar_arrow] - 3}px;height:5px;background:#{arrow_color};border-right: 1px solid #{arrow_color};border-bottom: 1px solid #{arrow_color};' class='#{options[:css]} arrow-left'>&nbsp;</div>"
-            output << "<div style='top:#{ params[:top] }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_late_end] - coords[:bar_start] - 2}px;' class='#{options[:css]} task_late'>&nbsp;</div>" if coords[:bar_late_end]
-            output << "<div style='top:#{ params[:top] }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_progress_end] - coords[:bar_start] - 2}px;border-left:0' class='#{options[:css]} task_done'>&nbsp;</div>" if 0 < coords[:bar_progress_end] - coords[:bar_start]
+          if coords[:bar_progress_end]
+            output << "<div style='top:#{ params[:top] }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_progress_end] - coords[:bar_start] - 2}px;' class='#{options[:css]} task_done'>&nbsp;</div>"
           end
         else
-          unless coords[:bar_complete] - coords[:bar_start] <= 0
-            output << "<div id='#{issue_id}'#{issue_relations}style='top:#{ params[:top] }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_complete] - coords[:bar_start] - 2}px;' class='#{options[:css]} task_closed'>&nbsp;</div>"
+          output << "<div id='#{issue_id}'#{issue_relations}style='top:#{ params[:top] }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_end] - coords[:bar_start] - 2}px;' class='#{options[:css]} task_todo'></div>"
+
+          if coords[:bar_progress_end] < coords[:bar_late_end]
+            #coords[:bar_arrow] = coords[:bar_late_end]
+            arrow_color = '#f66'
+          else
+            #coords[:bar_arrow] = coords[:bar_progress_end]
+            arrow_color = '#00c600'
           end
+          output << "<div style='top:#{ params[:top] }px;left:#{ coords[:bar_arrow] - 3}px;height:5px;background:#{arrow_color};border-right: 1px solid #{arrow_color};border-bottom: 1px solid #{arrow_color};' class='#{options[:css]} arrow-left'>&nbsp;</div>"
+          output << "<div style='top:#{ params[:top] }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_late_end] - coords[:bar_start] - 2}px;' class='#{options[:css]} task_late'>&nbsp;</div>" if coords[:bar_late_end]
+          output << "<div style='top:#{ params[:top] }px;left:#{ coords[:bar_start] }px;width:#{ coords[:bar_progress_end] - coords[:bar_start] - 2}px;border-left:0' class='#{options[:css]} task_done'>&nbsp;</div>" if 0 < coords[:bar_progress_end] - coords[:bar_start]
         end
 
         output
