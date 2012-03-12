@@ -3,13 +3,14 @@ ru:
   field_duration: "Продолжительность"
   work_on_weekends_label: "Работа на выходных"
   user: "Пользователь"
+  permission_view_time_periods_statistics: "Статистика по выполненным задачам"
   issue:
     count:
       general: "Количество поставленных задач"
       success: "Количество выполненных задач"
       failure: "Количество просроченных задач"
     time_diff: "Суммарное время просрочки, дней"
-  statistics:
+  statistics_period:
     show: "Отобразить статистику за период"
     from: "от:"
     to: "до:"

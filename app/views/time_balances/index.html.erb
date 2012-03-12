@@ -1,19 +1,19 @@
 <%= stylesheet_link_tag "custom_gantt.css", :plugin => "redmine_better_gantt_chart" %>
 <h3>
-  <%= l('statistics.show') %>
+  <%= l('statistics_period.show') %>
 </h3>
 <div>
 
   <% form_tag(url_for(:action => :index)) do %>
       &nbsp;
-      <%= label_tag :from, l('statistics.from') %>
+      <%= label_tag :from, l('statistics_period.from') %>
       <%= text_field_tag :from, @from %>
       <%= calendar_for :from %>
       &nbsp;
-      <%= label_tag :to, l('statistics.to') %>
+      <%= label_tag :to, l('statistics_period.to') %>
       <%= text_field_tag :to, @to %>
       <%= calendar_for :to %>
-      <%= submit_tag l('statistics.filter')%>
+      <%= submit_tag l('statistics_period.filter')%>
   <% end %>
 </div>
 <br/>
