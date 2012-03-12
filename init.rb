@@ -23,7 +23,7 @@ Dispatcher.to_prepare :redmine_issue_dependency do
   unless Project.included_modules.include? RedmineBetterGanttChart::ProjectPatch
     Project.send(:include, RedmineBetterGanttChart::ProjectPatch)
   end
-  
+
   unless GanttsController.included_modules.include? RedmineBetterGanttChart::GanttsControllerPatch
     GanttsController.send(:include, RedmineBetterGanttChart::GanttsControllerPatch)
   end
@@ -37,10 +37,10 @@ Redmine::Plugin.register :redmine_better_gantt_chart do
   name 'Redmine Better Gantt Chart plugin'
   author 'Alexey Kuleshov'
   description 'This plugin improves Redmine Gantt Chart'
-  version '0.6.0'
+  version '0.6.1'
   url 'https://github.com/kulesa/redmine_better_gantt_chart'
   author_url 'http://github.com/kulesa'
-  
+
   requires_redmine :version_or_higher => '1.1.0'
 
   #git@github.com:kslazarev/redmine_closed_issue.git
@@ -50,8 +50,6 @@ Redmine::Plugin.register :redmine_better_gantt_chart do
     'work_on_weekends' => true
   }, :partial => "settings/better_gantt_chart_settings")
 
-  permission :time_balances, {:time_balances => [:index, :vote]}, :public => true
+  permission :view_time_periods_statistics, {:time_balances => [:index, :vote]}
   menu :project_menu, :time_balances, {:controller => 'time_balances', :action => 'index'}, :caption => :time_balances, :after => :gantt, :param => :project_id
 end
-
-
